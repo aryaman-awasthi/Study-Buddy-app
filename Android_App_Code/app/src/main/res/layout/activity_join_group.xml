@@ -200,7 +200,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="5sp"
                     android:contentDescription="@string/back_button"
-                    android:src="@drawable/ic_qrcode" />
+                    android:src="@drawable/ic_qrcode_accent" />
 
             </RelativeLayout>
         </LinearLayout>

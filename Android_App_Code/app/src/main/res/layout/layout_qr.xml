@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/animation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp"
+        app:cardBackgroundColor="@color/background_secondary"
+        app:cardCornerRadius="10sp"
+        app:cardElevation="1dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+<!--            android:padding="20dp">-->
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:padding="5sp">
+                <TextView
+                    android:id="@+id/qr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="QR Code"
+                    android:fontFamily="@font/ibmplexsanssemibold"
+                    android:textColor="@color/primaryOpposite"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textAlignment="center"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:padding="15sp">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="7sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/ibmplexsanssemibold"
+                    android:text="Group Invite Code"
+                    android:textColor="@color/textSecondary" />
+
+
+                <RelativeLayout
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_outline"
+                    android:padding="10sp">
+
+                    <TextView
+                        android:id="@+id/invite_code"
+                        style="@style/sub_heading_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:letterSpacing=".3"
+                        android:textColor="@color/primary"
+                        android:text="@string/sample_invite_code"
+                        android:textAllCaps="false" />
+
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="200sp"
+                    android:layout_height="200sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20sp"
+                    android:background="@drawable/qr_background">
+
+                    <ImageView
+                        android:id="@+id/qr_code"
+                        android:layout_width="150sp"
+                        android:layout_height="150sp"
+                        android:layout_centerInParent="true"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/qr" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="People can scan this QR Code from their StudyBuddy App to join this group!"
+                    android:fontFamily="@font/ibmplexsansregular"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textAlignment="center" />
+                <Button
+                    android:id="@+id/submit_sb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Okay"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/ibmplexsansregular"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/button_accent"
+                    android:textColor="@color/primary"
+
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
