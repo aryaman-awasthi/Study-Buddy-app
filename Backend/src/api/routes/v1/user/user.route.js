@@ -12,9 +12,9 @@ const schema = {
     regno: Joi.string().regex(/^[1-9]{1}[0-9]{1}[A-Z]{3}[0-9]{4}/).required(),
     password: Joi.string().required(),
     confirm: Joi.string().required(),
+    major: Joi.string().required(),
     avatar: Joi.string(),
     graduatingYear: Joi.number(),
-    major: Joi.string().required(),
     bio: Joi.string()
   }),
   login: Joi.object({
@@ -41,6 +41,9 @@ const schema = {
   reset: Joi.object({
     password: Joi.string().required(),
     confirm: Joi.string().required()
+  }),
+  id: Joi.object({
+    id: Joi.string().regex(/^[0-9a-fA-F]{24}$/)
   })
 }
 
@@ -54,7 +57,7 @@ router.post('/resend', validate(schema.resend, 'body'), user.resend)
 
 router.get('/verify/:id/:hash', validate(schema.verify, 'params', 'Invalid verification link'), user.verify)
 
-router.get('/', authorise, user.get)
+router.get('/', authorise, validate(schema.id, 'query'), user.get)
 
 router.post('/forgotPassword', validate(schema.resend, 'body'), user.forgotPassword)
 
