@@ -135,6 +135,12 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="group_button_2">
+        <item name="fontFamily">@font/ibmplexsansmedium</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="editText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textColorHint">@color/textSecondary</item>

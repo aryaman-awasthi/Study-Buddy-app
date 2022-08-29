@@ -4,36 +4,55 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.studybuddy.R;
+import com.example.studybuddy.adapter.GroupOptionsAdapter;
 import com.example.studybuddy.adapter.ModuleAdapter;
 import com.example.studybuddy.model.Data;
 import com.example.studybuddy.model.GroupInfo;
 import com.example.studybuddy.model.Module;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GroupDetails extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    private Dialog dialog;
+    RecyclerView recyclerView, optionsRecyclerView;
     List<Module> moduleList;
     ArrayList<String> members;
     ModuleAdapter moduleAdapter;
+    GroupOptionsAdapter groupOptionsAdapter;
     GroupInfo groupInfo;
     ArrayList<Data> userData;
+
+    List<String> options;
+    List<Integer> icon;
+    HashMap<Integer, Integer> sub;
+
     List<Data> rUserData;
     RelativeLayout rel;
     private static final String SHARED_PREFS = "sharedPrefs";
@@ -48,6 +67,13 @@ public class GroupDetails extends AppCompatActivity {
         Intent intent = getIntent();
         groupInfo = (GroupInfo) intent.getSerializableExtra("groupInfo");
 
+        dialog = new Dialog(this);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        options = new ArrayList<>();
+        icon = new ArrayList<>();
+        sub = new HashMap<>();
+        fillOptionsList();
 
         userData = new ArrayList<>();
         String groupNameStr = groupInfo.getName();
@@ -70,30 +96,33 @@ public class GroupDetails extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerView.setNestedScrollingEnabled(false);
         moduleAdapter = new ModuleAdapter(moduleList);
         recyclerView.setAdapter(moduleAdapter);
 
+        optionsRecyclerView = findViewById(R.id.options);
+        optionsRecyclerView.setNestedScrollingEnabled(false);
+        optionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        groupOptionsAdapter = new GroupOptionsAdapter(options, icon, sub);
+        optionsRecyclerView.setAdapter(groupOptionsAdapter);
+
         setVisibility(groupInfo.getIsAdmin(), groupInfo.getImage());
-        setCountTexts(groupInfo.getMembers().size(), groupInfo.getRequests().size(), groupInfo.getQuizzes().size());
-
     }
 
-    @SuppressLint("SetTextI18n")
-    private void setCountTexts(int members_size, int requests_size, int quizzes_size) {
+    private void fillOptionsList() {
+        options.add("Quizzes");
+        options.add("Create Quiz");
 
-        TextView members = findViewById(R.id.members_count);
-        TextView requests = findViewById(R.id.requests_count);
-        TextView quizzes = findViewById(R.id.quizzes_count);
+        icon.add(R.drawable.ic_quizzes);
+        icon.add(R.drawable.ic_addnew);
 
-        members.setText(members_size + "");
-        requests.setText(requests_size + "");
-        quizzes.setText(quizzes_size + "");
+        sub.put(0, groupInfo.getQuizzes().size());
     }
+
 
     private void setVisibility(boolean isAdmin, String URL) {
-        RelativeLayout requestsLayout = findViewById(R.id.requests);
-        RelativeLayout editLayout = findViewById(R.id.edit_group);
+        LinearLayout requestsLayout = findViewById(R.id.requests);
+        LinearLayout editLayout = findViewById(R.id.edit_group);
         ImageView groupImage = findViewById(R.id.group_icon);
         if (!isAdmin){
             requestsLayout.setVisibility(View.GONE);
@@ -135,9 +164,12 @@ public class GroupDetails extends AppCompatActivity {
     }
 
     public void sendInvite(View view) {
-        Intent intent = new Intent(this, GroupInvitation.class);
-        intent.putExtra("groupInfo", groupInfo);
-        startActivity(intent);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, groupInfo.getInviteCode());
+        intent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(intent, "Share via");
+        startActivity(shareIntent);
     }
 
     public void getMembers(View view) {
@@ -187,4 +219,37 @@ public class GroupDetails extends AppCompatActivity {
 
     }
 
+    public void edit_group(View view) {
+    }
+
+    public void openQR(View view) {
+        dialog.setContentView(R.layout.layout_qr);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        String inviteCode = groupInfo.getInviteCode();
+
+
+        TextView invite = dialog.findViewById(R.id.invite_code);
+        invite.setText(inviteCode);
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(inviteCode, BarcodeFormat.QR_CODE, 150, 150);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            ImageView qrCode = dialog.findViewById(R.id.qr_code);
+            qrCode.setImageBitmap(bitmap);
+            InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+        Button button = dialog.findViewById(R.id.submit_sb);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 }
