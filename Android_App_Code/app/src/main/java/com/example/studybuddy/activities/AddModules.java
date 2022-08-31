@@ -1,7 +1,10 @@
 package com.example.studybuddy.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studybuddy.R;
+import com.example.studybuddy.adapter.AddModuleAdapter;
 import com.example.studybuddy.model.GroupInfo;
 import com.example.studybuddy.model.GroupUserResponse;
 import com.example.studybuddy.model.Modules;
@@ -40,11 +44,14 @@ public class AddModules extends AppCompatActivity {
     private static final String SHARED_PREFS = "sharedPrefs";
     private static final String DEFAULT_VAL = "-1";
     private static final String TEXT = "token";
-
+    RecyclerView recyclerView;
+    AddModuleAdapter addModulesAdapter;
+    TextView moduleCount, total;
 
     // TODO: Input of Number of Modules > given number of modules
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +74,17 @@ public class AddModules extends AppCompatActivity {
         daysToComplete = findViewById(R.id.days);
 
         mods = Integer.parseInt(modulesStr);
+        moduleCount = findViewById(R.id.modules_added);
+        total = findViewById(R.id.total_modules);
+
+        moduleCount.setText(counter + "/");
+        total.setText(""+ mods);
+
+        recyclerView = findViewById(R.id.recycler_view);
+        addModulesAdapter = new AddModuleAdapter(modules);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(addModulesAdapter);
 
         if (counter < mods) {
             cG.setVisibility(View.GONE);
@@ -125,6 +143,7 @@ public class AddModules extends AppCompatActivity {
 
     public void addModule(View view) {
         System.out.println("Counter: " + counter);
+
         if (counter < mods - 1){
             subAddModule(0);
         }
@@ -132,12 +151,15 @@ public class AddModules extends AppCompatActivity {
             if (counter == mods - 1){
                 subAddModule(-1);
                 cG.setVisibility(View.VISIBLE);
+                aM.setVisibility(View.GONE);
             }
 
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void subAddModule(int x){
+        moduleCount.setText((counter+1) + "/");
         String mod = moduleName.getText().toString();
         String day = daysToComplete.getText().toString();
 

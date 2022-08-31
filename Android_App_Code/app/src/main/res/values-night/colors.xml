@@ -7,6 +7,9 @@
     <color name="background">#000000</color>
     <color name="background_secondary">#232323</color>
 
+    <color name="background_tertiary">#262626</color>
+    <color name="background_quaternary">#363636</color>
+
 
     <color name="accent_primary">#f60</color>
     <color name="accent_secondary">#0983FE</color>
@@ -28,7 +31,7 @@
     <color name="dashBoardButtonColor">#1B1B1B</color>
     <color name="dashBoardTextColor">#ffffff</color>
 
-    <color name="err">#FF0000</color>
+    <color name="err">#E5083B</color>
 
     <color name="default_box_stroke_color" tools:overrise ="true">#707070</color>
 

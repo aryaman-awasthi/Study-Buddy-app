@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AddModules"
-
-    android:background="@color/background"
+    android:background="@color/background_tertiary"
     android:id="@+id/parentRelative">
 
     <RelativeLayout
@@ -14,8 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25sp"
-        android:orientation="horizontal">
+        android:background="@color/background"
+        android:orientation="horizontal"
+        android:paddingTop="25sp"
+        android:paddingBottom="25sp">
 
         <LinearLayout
             android:id="@+id/back_button"
@@ -51,7 +52,7 @@
             android:text="Add Module" />
     </RelativeLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/detailsLayout">
@@ -59,12 +60,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/background">
+
+
             <LinearLayout
                 android:id="@+id/form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
                 android:orientation="vertical"
                 android:padding="15sp">
 
@@ -120,43 +123,6 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/create_grp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/edit_group"
-                    android:layout_marginTop="15sp"
-                    android:background="@drawable/button_background"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:onClick="createGroup"
-                    android:orientation="horizontal"
-                    android:paddingStart="20sp"
-                    android:paddingTop="15sp"
-                    android:paddingEnd="20sp"
-                    android:paddingBottom="15sp">
-
-                    <TextView
-                        style="@style/button_dashboard_secondary_text_style"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Create Group"/>
-
-
-                    <ImageView
-                        android:layout_width="25sp"
-                        android:layout_height="25sp"
-                        android:layout_marginStart="5sp"
-                        android:contentDescription="@string/back_button"
-                        android:src="@drawable/ic_right"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-
-                </RelativeLayout>
-
-
-
-                <RelativeLayout
                     android:id="@+id/add_module"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,7 +156,92 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:padding="15sp"
+                android:background="@color/background_tertiary"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/medium_text_heading_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/module" />
+
+                    <TextView
+                        android:id="@+id/modules_added"
+                        style="@style/regular_text_heading_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5sp"
+                        android:text="@string/module" />
+
+
+                    <TextView
+                        android:id="@+id/total_modules"
+                        style="@style/text_body"
+                        android:textColor="@color/textSecondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2sp"
+                        android:text="/10" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15sp"
+                    android:background="@drawable/addmodule_background_recyclerview"/>
+
+                <RelativeLayout
+                    android:id="@+id/create_grp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15sp"
+                    android:background="@drawable/button_accent"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="createGroup"
+                    android:orientation="horizontal"
+                    android:paddingStart="20sp"
+                    android:paddingTop="15sp"
+                    android:paddingEnd="20sp"
+                    android:paddingBottom="15sp">
+
+                    <TextView
+                        style="@style/button_dashboard_secondary_text_style"
+                        android:textColor="@color/primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create Group"/>
+
+
+                    <ImageView
+                        android:layout_width="20sp"
+                        android:layout_height="20sp"
+                        android:layout_marginStart="5sp"
+                        android:contentDescription="@string/back_button"
+                        android:src="@drawable/tick"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

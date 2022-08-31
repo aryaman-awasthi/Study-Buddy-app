@@ -188,7 +188,7 @@
                         android:layout_width="20sp"
                         android:layout_height="20sp"
                         android:contentDescription="@string/back_button"
-                        android:src="@drawable/ic_addnew"
+                        android:src="@drawable/ic_add"
                         android:gravity="center_vertical"/>
 
                     <TextView
