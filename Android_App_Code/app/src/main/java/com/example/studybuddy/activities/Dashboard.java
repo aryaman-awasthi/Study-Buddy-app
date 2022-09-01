@@ -17,6 +17,7 @@ import com.example.studybuddy.R;
 import com.example.studybuddy.adapter.UserGroupListAdapter;
 import com.example.studybuddy.model.GroupInfo;
 import com.example.studybuddy.viewModel.GroupListViewModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class Dashboard extends AppCompatActivity implements UserGroupListAdapter
     private static final String TEXT = "token";
     private static final String NAME = "FullName";
     private static final String DEFAULT_VAL_NAME = "-1";
+    ShimmerFrameLayout shimmerFrameLayout;
 
     // TODO: Add shimmer effect
 
@@ -40,6 +42,9 @@ public class Dashboard extends AppCompatActivity implements UserGroupListAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        shimmerFrameLayout = findViewById(R.id.shimmer);
+        shimmerFrameLayout.startShimmer();
 
         setName();
         recyclerView = findViewById(R.id.recycler_view);
@@ -56,6 +61,9 @@ public class Dashboard extends AppCompatActivity implements UserGroupListAdapter
             @Override
             public void onChanged(ArrayList<GroupInfo> groupInfo) {
                 if (groupInfo != null){
+                    shimmerFrameLayout.stopShimmer();
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     groupInfoList = groupInfo;
                     userGroupListAdapter.updateGroupInfoList(groupInfo);
                 }
